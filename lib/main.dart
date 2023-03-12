@@ -1,3 +1,4 @@
+import 'package:adm_panel/utils/colors/colors_marques.dart';
 import 'package:adm_panel/views/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: ColorsMarques.blueMarques,
+          secondary: ColorsMarques.orangeMarques,
+        ),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -24,7 +29,6 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
       ),
       home: MainScreen(),
     );

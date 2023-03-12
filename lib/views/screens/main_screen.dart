@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return AdminScaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(255, 107, 36, 0.8),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         title: Text("Marques Construcao"),
       ),
       sideBar: SideBar(
@@ -127,7 +127,7 @@ class _MainScreenState extends State<MainScreen> {
           color: Color.fromRGBO(255, 107, 36, 1),
           child: Center(
             child: Text(
-              "Footer",
+              "©Tdskrn ${DateTime.now().year}",
               style: TextStyle(
                 color: Colors.white,
               ),
