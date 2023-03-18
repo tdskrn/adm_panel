@@ -42,6 +42,7 @@ dependencies:
   firebase_storage: ^11.0.15
   flutter_admin_scaffold: ^1.1.2
   file_picker: ^5.2.6
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,11 @@
 import 'package:adm_panel/utils/colors/colors_marques.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class UploadBannersScreen extends StatefulWidget {
   static const String routeName = '\UploadBannersScreen';
@@ -12,6 +15,9 @@ class UploadBannersScreen extends StatefulWidget {
 }
 
 class _UploadBannersScreenState extends State<UploadBannersScreen> {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   dynamic _image;
 
   String? fileName;
@@ -36,6 +42,39 @@ class _UploadBannersScreenState extends State<UploadBannersScreen> {
           fileName = result.files.first.name;
         });
       }
+    }
+  }
+
+  _uploadBannersToStorage(dynamic image) async {
+    Reference ref = _storage.ref().child('Banners').child(fileName!);
+
+    UploadTask uploadTask = ref.putData(image);
+
+    TaskSnapshot snapshot = await uploadTask;
+
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+
+    return downloadUrl;
+  }
+
+  uploadToFirebaseStore() async {
+    try {
+      EasyLoading.show();
+      if (_image != null) {
+        // aqui passamos a variavel _image que foi atualizada no setState
+        String imageUrl = await _uploadBannersToStorage(_image);
+
+        _firestore.collection('banners').doc(fileName).set({
+          "image": imageUrl,
+        }).whenComplete(() {
+          EasyLoading.showSuccess("Upload feito com sucesso");
+          setState(() {
+            _image = null;
+          });
+        });
+      }
+    } catch (error) {
+      EasyLoading.showError(error.toString());
     }
   }
 
@@ -107,7 +146,9 @@ class _UploadBannersScreenState extends State<UploadBannersScreen> {
                 style: ElevatedButton.styleFrom(
                   foregroundColor: ColorsMarques.blueMarques,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  uploadToFirebaseStore();
+                },
                 child: Text(
                   "Save",
                   style: TextStyle(
