@@ -114,7 +114,8 @@ class _MainScreenState extends State<MainScreen> {
           color: Color.fromRGBO(255, 107, 36, 0.9),
           child: Center(
             child: Text(
-              "Header",
+              "Do teto ao chão \n sua melhor opção!",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
               ),
