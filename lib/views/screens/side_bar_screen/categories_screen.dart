@@ -1,3 +1,4 @@
+import 'package:adm_panel/views/screens/side_bar_screen/widgets/category_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
@@ -73,6 +74,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           EasyLoading.showSuccess("Upload feito com sucesso");
           setState(() {
             _image = null;
+            // reseta TextFormField
+            _formKey.currentState!.reset();
           });
         });
       } catch (error) {
@@ -187,6 +190,26 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Categories",
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            CategoryWidget()
           ],
         ),
       ),
