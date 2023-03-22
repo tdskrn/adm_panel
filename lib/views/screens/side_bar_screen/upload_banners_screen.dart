@@ -1,4 +1,5 @@
 import 'package:adm_panel/utils/colors/colors_marques.dart';
+import 'package:adm_panel/views/screens/side_bar_screen/widgets/banner_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
@@ -158,7 +159,9 @@ class _UploadBannersScreenState extends State<UploadBannersScreen> {
               ),
             ],
           ),
-          if (fileName != null) Text(fileName!)
+          if (fileName != null) Text(fileName!),
+          Divider(),
+          BannerWidget(),
         ],
       ),
     );
