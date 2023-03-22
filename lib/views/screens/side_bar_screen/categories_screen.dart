@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../utils/colors/colors_marques.dart';
 
@@ -13,10 +16,14 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   dynamic _image;
   String? fileName;
+
+  late String categoryName;
 
   _pickImage() async {
     // variavel que verifica se plataforma é web
@@ -41,11 +48,38 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     }
   }
 
-  uploadCategory() {
-    if (_formKey.currentState!.validate()) {
-      print('Good guy');
+  uploadCategoryBannerToStorage(dynamic image) async {
+    Reference ref = _storage.ref().child('categoryImages').child(fileName!);
+
+    UploadTask uploadTask = ref.putData(image);
+
+    TaskSnapshot snapshot = await uploadTask;
+
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+
+    return downloadUrl;
+  }
+
+  uploadCategory() async {
+    if (_formKey.currentState!.validate() && _image != null) {
+      EasyLoading.show();
+      try {
+        String imageUrl = await uploadCategoryBannerToStorage(_image);
+
+        await _firestore.collection('categories').doc(fileName).set({
+          'image': imageUrl,
+          'categoryName': categoryName,
+        }).whenComplete(() {
+          EasyLoading.showSuccess("Upload feito com sucesso");
+          setState(() {
+            _image = null;
+          });
+        });
+      } catch (error) {
+        EasyLoading.showError(error.toString());
+      }
     } else {
-      debugPrint('Bad Guy');
+      EasyLoading.showError("Insira uma imagem e um nome válido");
     }
   }
 
@@ -116,6 +150,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: TextFormField(
+                      onChanged: (value) {
+                        categoryName = value;
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please Category Name Must not be empty';
