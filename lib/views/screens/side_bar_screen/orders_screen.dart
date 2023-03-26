@@ -45,8 +45,8 @@ class OrdersScreen extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              _rowHeader("LOGO", 1),
-              _rowHeader("BUSSINESS NAME", 3),
+              _rowHeader("IMAGE", 1),
+              _rowHeader("FULL NAME", 3),
               _rowHeader("CITY", 2),
               _rowHeader("STATE", 2),
               _rowHeader("ACTION", 1),

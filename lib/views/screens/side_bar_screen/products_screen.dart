@@ -45,10 +45,10 @@ class ProductsScreen extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              _rowHeader("LOGO", 1),
-              _rowHeader("BUSSINESS NAME", 3),
-              _rowHeader("CITY", 2),
-              _rowHeader("STATE", 2),
+              _rowHeader("IMAGE", 1),
+              _rowHeader("NAME", 3),
+              _rowHeader("PRICE", 2),
+              _rowHeader("QUANTITY", 2),
               _rowHeader("ACTION", 1),
               _rowHeader("VIEW MORE", 1),
             ],

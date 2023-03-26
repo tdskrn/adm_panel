@@ -45,12 +45,12 @@ class WithdrawScreen extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              _rowHeader("LOGO", 1),
-              _rowHeader("BUSSINESS NAME", 3),
-              _rowHeader("CITY", 2),
-              _rowHeader("STATE", 2),
-              _rowHeader("ACTION", 1),
-              _rowHeader("VIEW MORE", 1),
+              _rowHeader("NAME", 1),
+              _rowHeader("AMOUNT", 3),
+              _rowHeader("BANK NAME", 2),
+              _rowHeader("BANK ACCOUNT", 2),
+              _rowHeader("EMAIL", 1),
+              _rowHeader("PHONE", 1),
             ],
           )
         ],
